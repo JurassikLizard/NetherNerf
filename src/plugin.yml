@@ -1,0 +1,5 @@
+main: com.jurassiklizard.nethernerf.NetherNerf
+version: 1.0
+name: NetherNerf
+author: JurassikLizard
+api-version: 1.16
