@@ -1,5 +1,6 @@
 package com.jurassiklizard.nethernerf;
 
+import com.jurassiklizard.nethernerf.events.PortalListeners;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,6 +13,7 @@ public class NetherNerf extends JavaPlugin {
     @Override
     public void onEnable(){
         logger.info(ChatColor.GREEN + "NetherNerf has enabled!");
+        getServer().getPluginManager().registerEvents(new PortalListeners(), this);
     }
 
     @Override
