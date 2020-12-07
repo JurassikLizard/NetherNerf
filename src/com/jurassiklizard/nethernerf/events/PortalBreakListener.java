@@ -5,16 +5,17 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Iterator;
 
@@ -117,6 +118,59 @@ public class PortalBreakListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.LOW)
+    public void playerBlockPlace(BlockPlaceEvent placeEvent) {
+        if (placeEvent.isCancelled()) {
+            return;
+        }
+
+        Block block = placeEvent.getBlock();
+
+        if (isTouchingNetherPortal(block)) {
+            placeEvent.setCancelled(true);
+            placeEvent.getPlayer().sendMessage(ChatColor.RED + "Hey! You can't place that there!");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void blockDispense(BlockDispenseEvent dispenseEvent) {
+        if (dispenseEvent.isCancelled()) {
+            return;
+        }
+
+        Block block = dispenseEvent.getBlock();
+
+        if(isTouchingNetherPortal(block) &&
+                (dispenseEvent.getItem().getType() == Material.LAVA_BUCKET ||
+                        dispenseEvent.getItem().getType() == Material.LAVA ||
+                        dispenseEvent.getItem().getType() == Material.WATER_BUCKET ||
+                        dispenseEvent.getItem().getType() == Material.WATER)) {
+            dispenseEvent.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void playerBedSleep(PlayerBedEnterEvent bedEvent){
+        if(bedEvent.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.NOT_POSSIBLE_HERE){
+            bedEvent.setCancelled(true);
+            bedEvent.getPlayer().sendMessage(ChatColor.RED + "Hey! You can't sleep here!");
+        }
+    }
+
+//    @EventHandler
+//    public void onInteract(PlayerInteractEvent interactEvent){
+//        Player player = interactEvent.getPlayer();
+//        if(interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK){
+//            if(interactEvent.getClickedBlock().getType() == Material.Bed){
+//                Block block = interactEvent.getClickedBlock();
+//                if(block.getLocation().getWorld() == Bukkit.getWorld("nether")) {
+//                    interactEvent.setCancelled(true);
+//                }
+//            }
+//        }
+//    }
+
+
     private static boolean isInNetherPortal(Block block){
         if(block.getWorld().getEnvironment() != World.Environment.NETHER){
             return false;
@@ -134,6 +188,17 @@ public class PortalBreakListener implements Listener {
             if(block.getRelative(BlockFace.DOWN).getType() == Material.NETHER_PORTAL){ return true; }
             if(block.getRelative(BlockFace.WEST).getType() == Material.NETHER_PORTAL){ return true; }
         }
+
+        return false;
+    }
+
+    private static boolean isTouchingNetherPortal(Block block){
+        if(isInNetherPortal(block.getRelative(BlockFace.NORTH))) { return true; }
+        if(isInNetherPortal(block.getRelative(BlockFace.WEST))) { return true; }
+        if(isInNetherPortal(block.getRelative(BlockFace.SOUTH))) { return true; }
+        if(isInNetherPortal(block.getRelative(BlockFace.EAST))) { return true; }
+        if(isInNetherPortal(block.getRelative(BlockFace.UP))) { return true; }
+        if(isInNetherPortal(block.getRelative(BlockFace.DOWN))) { return true; }
 
         return false;
     }

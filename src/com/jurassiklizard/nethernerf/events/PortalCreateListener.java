@@ -16,6 +16,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.event.world.PortalCreateEvent.CreateReason;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PortalCreateListener implements Listener {
