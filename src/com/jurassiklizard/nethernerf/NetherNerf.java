@@ -21,7 +21,7 @@ public class NetherNerf extends JavaPlugin {
     private static NetherNerf plugin;
 
     public static HashMap<World, Location> fortressLocations;
-    public static ArrayList<UUID> speedrunners;
+    public static ArrayList<String> speedrunners;
 
     @Override
     public void onEnable(){

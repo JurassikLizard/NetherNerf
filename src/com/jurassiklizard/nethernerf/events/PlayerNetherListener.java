@@ -21,7 +21,7 @@ public class PlayerNetherListener implements Listener {
         if(player.getWorld().getEnvironment() != World.Environment.NETHER){
             return;
         }
-        if(!NetherNerf.speedrunners.contains(player.getUniqueId())){
+        if(!NetherNerf.speedrunners.contains(player.getDisplayName())){
             return;
         }
         if(NetherNerf.fortressLocations.get(player.getWorld()) == null){

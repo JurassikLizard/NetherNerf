@@ -24,9 +24,6 @@ public class PortalBreakListener implements Listener {
 
     @EventHandler
     public void blockPhysics(BlockPhysicsEvent physicsEvent) {
-        if (physicsEvent.isCancelled()) {
-            return;
-        }
         Block block = physicsEvent.getBlock();
 
         if (physicsEvent.getChangedType() == Material.NETHER_PORTAL || block.getType() == Material.NETHER_PORTAL) {
@@ -36,13 +33,8 @@ public class PortalBreakListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void blockFromTo(BlockFromToEvent fromToEvent) {
-        // Always check if the event has been canceled by someone else.
-        if(fromToEvent.isCancelled()) {
-            return;
-        }
-
         // The to block should never be null, but apparently it is sometimes...
         if (fromToEvent.getBlock() == null || fromToEvent.getToBlock() == null) {
             return;
@@ -70,31 +62,23 @@ public class PortalBreakListener implements Listener {
 //        }
 //    }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void playerBucketEmpty(PlayerBucketEmptyEvent emptyEvent) {
-        if (emptyEvent.isCancelled()) {
-            return;
-        }
-
         if (isInNetherPortal(emptyEvent.getBlockClicked())) {
             emptyEvent.setCancelled(true);
             emptyEvent.getPlayer().sendMessage(ChatColor.RED + "Hey! You can't empty that there!");
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void blockExplodeEvent(BlockExplodeEvent explodeEvent){
-        if(explodeEvent.isCancelled()){
-            return;
-        }
-
         Iterator<Block> iter = explodeEvent.blockList().iterator();
         while(iter.hasNext())
             if(isInNetherPortal(iter.next()))
                 iter.remove();
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void entityExplodeEvent(EntityExplodeEvent explodeEvent){
         if(explodeEvent.isCancelled()){
             return;
@@ -106,7 +90,7 @@ public class PortalBreakListener implements Listener {
                 iter.remove();
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void blockBreakEvent(BlockBreakEvent breakEvent){
         if(breakEvent.isCancelled()){
             return;
@@ -118,7 +102,7 @@ public class PortalBreakListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void playerBlockPlace(BlockPlaceEvent placeEvent) {
         if (placeEvent.isCancelled()) {
             return;
@@ -132,7 +116,7 @@ public class PortalBreakListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void blockDispense(BlockDispenseEvent dispenseEvent) {
         if (dispenseEvent.isCancelled()) {
             return;
@@ -149,7 +133,7 @@ public class PortalBreakListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void playerBedSleep(PlayerBedEnterEvent bedEvent){
         if(bedEvent.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.NOT_POSSIBLE_HERE){
             bedEvent.setCancelled(true);

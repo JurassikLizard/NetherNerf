@@ -20,9 +20,9 @@ public class PlayerCommands implements CommandExecutor {
             Player player = Bukkit.getPlayer(args[0]);
 
             if(player == null){ return true; }
-            if(NetherNerf.speedrunners.contains(player.getUniqueId())){ return true; }
+            if(NetherNerf.speedrunners.contains(player.getDisplayName())){ return true; }
 
-            NetherNerf.speedrunners.add(player.getUniqueId());
+            NetherNerf.speedrunners.add(player.getDisplayName());
             System.out.println("Success: " + player.getUniqueId());
             return true;
         }
@@ -34,7 +34,7 @@ public class PlayerCommands implements CommandExecutor {
 
             if(player == null){ return true; }
 
-            NetherNerf.speedrunners.remove(player.getUniqueId());
+            NetherNerf.speedrunners.remove(player.getDisplayName());
             return true;
         }
 
