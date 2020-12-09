@@ -9,9 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Iterator;
 
 public class PlayerNetherListener implements Listener {
     @EventHandler
